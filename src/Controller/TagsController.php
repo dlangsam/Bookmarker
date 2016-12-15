@@ -110,4 +110,28 @@ class TagsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function isAuthorized($user)
+    {
+        return true;
+        
+        // $action = $this->request->params['action'];
+
+        // // The add and index actions are always allowed.
+        // if (in_array($action, ['index', 'add'])) {
+        //     return true;
+        // }
+        // // All other actions require an id.
+        // if (empty($this->request->params['pass'][0])) {
+        //     return false;
+        // }
+
+        // // Check that the bookmark belongs to the current user.
+        // $id = $this->request->params['pass'][0];
+        // $tag= $this->Tags->get($id);
+        // if ($tag->user_id == $user['id']) {
+        //     return true;
+        // }
+        // return parent::isAuthorized($user);
+    }
 }

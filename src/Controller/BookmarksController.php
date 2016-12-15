@@ -18,7 +18,7 @@ class BookmarksController extends AppController
      */
     public function index()
     {
-           $this->paginate = [
+          $this->paginate = [
             'conditions' => [
                 'Bookmarks.user_id' => $this->Auth->user('id'),
             ]
@@ -36,6 +36,8 @@ class BookmarksController extends AppController
         // Use the BookmarksTable to find tagged bookmarks.
         $bookmarks = $this->Bookmarks->find('tagged', [
             'tags' => $tags
+            
+
         ]);
 
         // Pass variables into the view template context.
@@ -93,21 +95,21 @@ class BookmarksController extends AppController
      */
     public function edit($id = null)
     {
-        $bookmark = $this->Bookmarks->get($id, [
-            'contain' => ['Tags']
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $bookmark = $this->Bookmarks->patchEntity($bookmark, $this->request->data);
-            $bookmark->user_id = $this->Auth->user('id');
-            if ($this->Bookmarks->save($bookmark)) {
-                $this->Flash->success('The bookmark has been saved.');
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error('The bookmark could not be saved. Please, try again.');
+    $bookmark = $this->Bookmarks->get($id, [
+        'contain' => ['Tags']
+    ]);
+    if ($this->request->is(['patch', 'post', 'put'])) {
+        $bookmark = $this->Bookmarks->patchEntity($bookmark, $this->request->data);
+        $bookmark->user_id = $this->Auth->user('id');
+        if ($this->Bookmarks->save($bookmark)) {
+            $this->Flash->success('The bookmark has been saved.');
+            return $this->redirect(['action' => 'index']);
         }
-        $tags = $this->Bookmarks->Tags->find('list');
-        $this->set(compact('bookmark', 'tags'));
-        $this->set('_serialize', ['bookmark']);
+        $this->Flash->error('The bookmark could not be saved. Please, try again.');
+    }
+    $tags = $this->Bookmarks->Tags->find('list');
+    $this->set(compact('bookmark', 'tags'));
+    $this->set('_serialize', ['bookmark']);
     }
 
     /**
@@ -131,6 +133,8 @@ class BookmarksController extends AppController
     }
     public function isAuthorized($user)
     {
+        
+        
         $action = $this->request->params['action'];
 
         // The add and index actions are always allowed.
